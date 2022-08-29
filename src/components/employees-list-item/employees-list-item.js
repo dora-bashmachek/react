@@ -1,8 +1,8 @@
-import React from 'react';
+import {Component } from 'react';
 import './employees-list-item.css';
 
-class EmployeesListItem extends React.Component {
-   constructor(props){
+class EmployeesListItem extends Component {
+   constructor(props, onDelete){
     super(props);
     this.state={
         increase:false,
@@ -14,7 +14,7 @@ class EmployeesListItem extends React.Component {
         increase: !increase
     }))
    }
-   onIncrease=()=>{
+   onRise=()=>{
     this.setState(({rise})=>({
         rise: !rise
     }))
@@ -41,7 +41,7 @@ class EmployeesListItem extends React.Component {
 
                 <button type="button"
                         className="btn-trash btn-sm "
-                        onClick={this.onIncrease}>
+                        onClick={this.onDelete}>
                     <i className="fas fa-trash"></i>
                 </button>
                 <i className="fas fa-star"></i>
