@@ -11,10 +11,12 @@ class App extends Component {
     super(props);
     this.state={
       data:[
-        {name:'David', salary:800, increase:false, id:1},
+        {name:'David', salary:800, increase:true, id:1},
         {name:'Alex', salary:8000, increase:false, id:2},
-        {name:'Carl', salary:8500, increase:false, id:3}
-      ]
+        {name:'Carl', salary:8500, increase:true, id:3}
+      ],
+      term:'',
+      filter: "moreThen1000",
     }
     this.maxId=4;
   }
@@ -40,20 +42,48 @@ class App extends Component {
       }
     });
   }
+  filterPost=(items,filter)=>{
+    switch(filter)
+    {
+      case 'rise':
+        return items.filter(item=>item.rise);
+      case 'moreThen1000':
+        return items.filter(item=>item.salary>1000);
+      default:
+        return items
+    }
+      }
+      searchEmp=(items,term)=>{
+        if (term.length===0) {
+          return items
+        }
+        items.filter(items=>{
+          return items.namew.indexOf(term)>-1
+        })
+      }
+      onUpdateSearch=(term)=>{
+        this.setState({term})
+      }
+      onFilterSelect=(filter)=>
+      {
+        this.setState({filter});
+      }
   render(){
     //const data=this.state;
+    const {data,term,filter}=this.state;
     const countEmp=this.state.data.length
     const increase=this.state.data.filter(item=> item.increase).length
+    const visibleData=this.filterPost(this.searchEmp(data,term),filter)
   return (
     <div className="app">
         <AppInfo emp={countEmp} inc={increase} />
 
         <div className="search-panel">
-            <SearchPanel/>
-            <AppFilter/>
+          <SearchPanel onUpdateSearch={this.onUpdateSearch} />
+            <AppFilter filter={filter} onFilterSelect={this.onFilterSelect} />
         </div>
 
-        <EmployeesList data={this.state.data}
+        <EmployeesList data={visibleData}
         onDelete={this.deleteItem}/>
         <EmployeesAddForm
         onAdd={this.addItem}/>

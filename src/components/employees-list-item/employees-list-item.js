@@ -19,6 +19,7 @@ class EmployeesListItem extends Component {
         rise: !rise
     }))
    }
+
    render(){
     const {name,salary}=this.props;
     const {increase, rise}=this.state;
